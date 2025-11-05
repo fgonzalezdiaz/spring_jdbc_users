@@ -13,9 +13,13 @@ import com.ra2.users.ra2users.model.User;
 import com.ra2.users.ra2users.repositori.UserRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -46,11 +50,31 @@ public class UserController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<User> getMethodName(@PathVariable Long id) {
+    public ResponseEntity<User> getPorId(@PathVariable Long id) {
         List<User> users = userRepository.findOne(id);
         if(users.isEmpty()) return ResponseEntity.ok().body(null);
         return ResponseEntity.ok().body(users.get(0));
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> modificaUsuari(@PathVariable Long id, @RequestBody User user_2) {
+        int result = userRepository.updateUser(id, user_2.getNom(), user_2.getDesc(), user_2.getEmail(), user_2.getPasswd());
+        String resposta = (result >= 1) ? "Usuari modificat correctament" : "Error, cap usuari modificat";
+        return ResponseEntity.ok().body(resposta);
+    }
     
-    
+    @PatchMapping("/{id}/name")
+    public ResponseEntity<String> modificaNomUsuari(@PathVariable Long id, @RequestParam String name){
+        int result = userRepository.updateNameUser(id, name);
+        String resposta = (result >= 1) ? "Nom usuari modificat correctament" : "Nom usuari NO modificat";
+        return ResponseEntity.ok().body(resposta);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminaUsuari(@PathVariable Long id){
+        int result = userRepository.deleteUser(id);
+        String resposta = (result >= 1) ? "Usuari esborrat amb exit" : "ERROR, cap usuari esborrat";
+        return ResponseEntity.ok().body(resposta); 
+    }
 }

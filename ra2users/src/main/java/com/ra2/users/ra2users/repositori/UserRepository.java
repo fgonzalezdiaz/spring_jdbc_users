@@ -48,4 +48,36 @@ public class UserRepository {
         String sql = "insert into users (nom, descr, email, passwd, ultimAcces, dataCreated, dataUpdated) VALUES (?, ?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, nom, desc, email, passwd, ultimAcces, dataCreated, dataUpdated);
     }
+
+    public int updateUser(Long id, String nom, String desc, String email, String passwd){
+        String sql = """
+            UPDATE users
+            SET nom = ?, 
+            descr = ?, 
+            email = ?, 
+            passwd = ?, 
+            ultimAcces = CURRENT_TIMESTAMP, 
+            dataUpdated = CURRENT_TIMESTAMP
+            WHERE id = ?
+        """;
+        return jdbcTemplate.update(sql, nom, desc, email, passwd, id);
+
+    }
+
+    public int updateNameUser(Long id, String name){
+        String sql ="""
+                Update users
+                set nom = ?
+                where id = ?
+                """;
+        return jdbcTemplate.update(sql, name, id);
+    }
+
+    public int deleteUser(Long id){
+        String sql = """
+                delete from users where id = ?
+                """;
+        return jdbcTemplate.update(sql, id);
+    } 
+
 }
