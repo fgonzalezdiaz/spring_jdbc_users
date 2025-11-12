@@ -28,6 +28,7 @@ public class UserRepository {
             user.setDesc(rs.getString("descr"));
             user.setEmail(rs.getString("email"));
             user.setPasswd(rs.getString("passwd"));
+            user.setImage_path(rs.getString("image_path"));
             user.setUltimAcces(rs.getTimestamp("ultimAcces"));
             user.setDataCreated(rs.getTimestamp("dataCreated"));
             user.setDataUpdated(rs.getTimestamp("dataUpdated"));
@@ -79,5 +80,13 @@ public class UserRepository {
                 """;
         return jdbcTemplate.update(sql, id);
     } 
+
+    public int saveImagePath(String pathFitxer, Long id) {
+        String sql = """
+                Update users set image_path = ? where id = ?
+                """;
+        return jdbcTemplate.update(sql, pathFitxer, id);
+    }
+
 
 }

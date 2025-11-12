@@ -8,6 +8,8 @@ public class User {
     private String desc;
     private String email;
     private String passwd;
+    private String image_path;
+
     private Timestamp ultimAcces;
     private Timestamp dataCreated;
     private Timestamp dataUpdated; 
@@ -31,6 +33,12 @@ public class User {
     }
     public void setNom(String nom) {
         this.nom = nom;
+    }
+        public void setImage_path(String image_path) {
+        this.image_path = image_path;
+    }
+    public String getImage_path() {
+        return image_path;
     }
     public void setDesc(String desc) {
         this.desc = desc;
