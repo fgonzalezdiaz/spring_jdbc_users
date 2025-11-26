@@ -91,5 +91,12 @@ public class UserController {
         return ResponseEntity.ok().body(userService.uploadMassiveUsers(csvFile));
     }
     
+    @PostMapping("")
+    public String postMethodName(@RequestBody String entity) {
+        //TODO: process POST request
+        
+        return entity;
+    }
+    
     
 }
