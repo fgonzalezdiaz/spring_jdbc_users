@@ -1,4 +1,6 @@
 package com.ra2.users.ra2users.service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -73,7 +75,8 @@ public class UserService {
 
     public String uploadMassiveUsers(MultipartFile csvFile) throws Exception{
         int usersCreats = 0;
-        try{BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(csvFile.getInputStream()));
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(csvFile.getInputStream()));
             String line;
             while((line = bufferedReader.readLine()) != null){
                 String arguments[] = line.split(",");
@@ -90,5 +93,33 @@ public class UserService {
             return e.getMessage();
         }
         return "Has introduit " + Integer.toString(usersCreats) + " usuaris";
+    }
+
+    public String uploadMassiveUsersJson(MultipartFile jsonFile){
+        int usersCreats = 0;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode usuaris = mapper.readTree(jsonFile.getInputStream());
+            for(JsonNode usuari : usuaris){
+            User user = new User();
+            user.setNom(usuari.get("nom").asText());
+            user.setDesc(usuari.get("desc").asText());
+            user.setEmail(usuari.get("email").asText());
+            user.setPasswd(usuari.get("passwd").asText());
+            userRepository.save(user.getNom(), user.getDesc(), user.getEmail(), user.getPasswd(), null, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
+            usersCreats++;
+            }
+            Path pathFitxer = Paths.get("private/json_processed/" + jsonFile.getOriginalFilename());
+            Path pathDirectory = Paths.get("private/json_processed");
+
+            Files.createDirectories(pathDirectory);
+            Files.copy(jsonFile.getInputStream(), pathFitxer);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return("Usuaris no creats");
+        }
+
+        return usersCreats + " usuaris creats.";
     }
 }

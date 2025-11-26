@@ -1,0 +1,20 @@
+[
+  {
+    "nom": "Omar Al-Farouq",
+    "desc": "Usuario interesado en perfumes orientales",
+    "email": "omar.farouq@example.com",
+    "passwd": "omar2025"
+  },
+  {
+    "nom": "Amina Al-Yasmin",
+    "desc": "Coleccionista de fragancias árabes",
+    "email": "amina.yasmin@example.com",
+    "passwd": "aminaPass!"
+  },
+  {
+    "nom": "Youssef Ibn Khalid",
+    "desc": "Amante de oud y attars artesanales",
+    "email": "youssef.khalid@example.com",
+    "passwd": "yksecure123"
+  }
+]
