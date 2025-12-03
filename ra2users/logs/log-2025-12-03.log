@@ -1,0 +1,5 @@
+[2025-12-03 19:31:39.517] ERROR - no - sinositis - si
+[2025-12-03 19:31:57.139] ERROR - no - sinositis - si
+[2025-12-03 19:44:29.276] INFO - UserSerice - findOne - Consultant l'estudiant amb id = 1321
+[2025-12-03 19:47:08.961] INFO - UserSerice - findOne - Consultant l'estudiant amb id = 1321
+[2025-12-03 19:47:08.966] ERROR - UserSerice - findOne - L'usuari amb id = 1321 no existeix

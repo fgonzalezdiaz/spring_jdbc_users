@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ra2.users.ra2users.logging.CustomLogging;
 import com.ra2.users.ra2users.model.User;
 import com.ra2.users.ra2users.repositori.UserRepository;
 import com.ra2.users.ra2users.service.UserService;
@@ -95,6 +96,5 @@ public class UserController {
     public ResponseEntity<String> uploadJson(@RequestParam MultipartFile jsonFile) {
         return ResponseEntity.ok().body(userService.uploadMassiveUsersJson(jsonFile));
     }
-    
     
 }

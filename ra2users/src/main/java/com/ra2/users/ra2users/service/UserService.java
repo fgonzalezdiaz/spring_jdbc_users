@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ra2.users.ra2users.logging.CustomLogging;
 import com.ra2.users.ra2users.model.User;
 import com.ra2.users.ra2users.repositori.UserRepository;
 
@@ -24,27 +25,55 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
     public List<User> findAll(){
-        return userRepository.findAll(); 
+        CustomLogging.info("Consultant tots els users", "UserSerice", "findAll");
+        return userRepository.findAll();
     }
 
     public List<User> findOne(Long id){
-        return userRepository.findOne(id);
+        CustomLogging.info("Consultant l'user amb id = " + id, "UserSerice", "findOne");
+        List<User> lista = userRepository.findOne(id);
+        if (lista.isEmpty()){
+            CustomLogging.error("L'usuari amb id = " + id + " no existeix", "UserSerice", "findOne");
+        }
+        return lista;
     }
 
     public int save(String nom, String desc, String email, String passwd, Timestamp ultimAcces, Timestamp dataCreated, Timestamp dataUpdated){
-        return userRepository.save(nom, desc, email, passwd, ultimAcces, dataCreated, dataUpdated);
+        CustomLogging.info("Creant un user", "UserSerice", "save");        
+        int creats = userRepository.save(nom, desc, email, passwd, ultimAcces, dataCreated, dataUpdated);
+        if(creats >= 1){
+            CustomLogging.info("User creat correctament", "UserSerice", "save");        
+        } else {
+            CustomLogging.error("L'user amb nom " + nom + " no s'ha creat. ", "UserSerice", "save");        
+        }
+        return creats;
     }
 
     public int updateUser(Long id, String nom, String desc, String email, String passwd){
-        return userRepository.updateUser(id, nom, desc, email, passwd);
+        CustomLogging.info("Modificant l'estudiant amb id = " + id, "UserSerice", "updateUser");                
+        int creats = userRepository.updateUser(id, nom, desc, email, passwd);
+        if(creats >= 1){
+            CustomLogging.info("User modificat correctament", "UserSerice", "updateUser");         
+        } else {
+            CustomLogging.error("L'user amb id: " + id + " no existeix" , "UserSerice", "save");        
+        }
+        return creats;
     }
 
     public int updateNameUser(Long id, String name){
+        CustomLogging.info("Modificant l'user amb id = " + id, "UserSerice", "updateNameUser"); 
         return userRepository.updateNameUser(id, name);
     }
 
     public int deleteUser(Long id){
-        return userRepository.deleteUser(id);
+        CustomLogging.info("Borrant l'user amb id = " + id, "UserService", "deleteUser");
+        int eliminats = userRepository.deleteUser(id);
+        if(eliminats >= 1){
+            CustomLogging.info("User amb id = " + id + " eliminat correctament", "UserService", "deleteUser");
+        } else {
+            CustomLogging.error("User no existeix", "UserService", "deleteUser");
+        }
+        return eliminats;
     }
 
 
